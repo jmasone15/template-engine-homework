@@ -9,6 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const employeesArray = [];
 
 function appMenu() {
     function createManager() {
@@ -38,21 +39,75 @@ function appMenu() {
         ]).then(answers => {
             const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOfficeNumber);
             console.log(manager);
+            employeesArray.push(manager)
+            createIntern();
         });
     }
+
+    function createIntern() {
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "internName",
+                message: "What is your intern's name?"
+            },
+            {
+                type: "input",
+                name: "internId",
+                message: "What is your intern's id?"
+            },
+            {
+                type: "input",
+                name: "internEmail",
+                message: "What is your intern's email?"
+            },
+            {
+                type: "input",
+                name: "internSchool",
+                message: "What is your intern's school?"
+            }
+            
+        ]).then(answers => {
+            const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool);
+            console.log(intern);
+            employeesArray.push(intern)
+            createEngineer();
+        });
+    }
+
+    function createEngineer() {
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "engineerName",
+                message: "What is your engineer's name?"
+            },
+            {
+                type: "input",
+                name: "engineerId",
+                message: "What is your engineer's id?"
+            },
+            {
+                type: "input",
+                name: "engineerEmail",
+                message: "What is your engineer's email?"
+            },
+            {
+                type: "input",
+                name: "engineerGithub",
+                message: "What is your engineer's github?"
+            }
+            
+        ]).then(answers => {
+            const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
+            console.log(engineer);
+            employeesArray.push(engineer)
+            render(employeesArray);
+        });
+    }
+
     createManager();
 }
-
-
-
-
-
-
-
-
-
-
-
 appMenu();
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
